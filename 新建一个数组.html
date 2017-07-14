@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form>
+    <h5>可以输入0~31任意一个数字</h5>
+    <p>会随机生成不重复的输入个数的数字</p>
+    <input type="text" name="arr" id="arr" maxlength="2" />
+    <input type="submit" name="sub" id="sub" value="提交" />
+    <p id="p"></p>
+    <p id="p1"></p>
+</form>
+<script>
+    var text=document.getElementById('arr');
+    var sub=document.getElementById('sub');
+    var p=document.getElementById('p');
+    sub.onclick=function(e){
+        var sz= new Array();
+        //新建一个数组，同时为了凸显输入输出效果，阻止默认事件
+        e.preventDefault();
+        var o=text.value;
+        //获取输入内容
+        if(o>31||o<0) {alert('请输入0~31内的数字');return sz;}
+        //如果输入的值不在范围内返回空字符
+        if(o===''){alert('o===null');return sz;}
+        //如果输入值为空返回空字符
+        if(isNaN( parseInt(o))){ alert('parseInt(o):'+parseInt(o));return sz;}
+        //如果输入值经过parseInt转换是NaN 返回空字符
+        o=parseInt(o);
+        //如果输入的值是数字和非数字的组合将会忽略非数字部分
+        fn(o);
+
+        /**/
+        function fn(n){
+            var rry="";
+            //为了更直观体现新建字符串
+            var ooo=[];
+            //空数组
+            var z=[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
+            //在z数组中获取数组项
+            for(i=0;i<n;i++){
+                var index=Math.floor(Math.random()*31);
+                //math.floor向下取整、math.random（让我想起了dota）会随机产生0~1之间的数字
+                ooo.push(index);
+                //push（）可以获取任意多参数添加到目标数组尾部
+                var bj= ooo.qc().length;
+                //qc是数组去重，在下面
+            if((bj-i)!==1){
+                //理想状态，无重复数组的长度减去i应该等于1，所以不满足状态下即有重复数组项i--重新筛选（之前脑子短路写了个差点把电脑卡死的循环bug，可怜我的老爷机）
+              i--;
+            }
+       else{
+                sz.push(z[index]);
+                //通过随机数组ooo获取z数组中的目标数组项添加到sz新数组中（好吧我对于明命确实很渣-_-）
+                rry+=z[index]+'--';
+                //显示的查看数组项
+                p.innerText=rry;
+                //同上
+        }
+            }
+            return sz;
+        }
+    };
+    Array.prototype.qc = function(){
+        //给数组Array添加一个方法需要用到propotype，Array（）是构造函数，要向原型属性中添加一个方法 person propotype（就是所有实例共享的属性和方法）
+        var res = [];
+        //新建一个数组用来承载不重复的数组项
+        var json = {};
+        //新建一个对象，将不重复的数组项添加为对象的属性名，并将其赋值为1，用来比较作参考
+        for(var i = 0; i < this.length; i++){
+            if(!json[this[i]]){
+                //如果对象中没有以该数组项明名的属性
+                res.push(this[i]);
+                //将该数组项添加到新数组中
+                json[this[i]] = 1;
+                //以该数组项为属性名添加到对象中
+            }
+        }
+        return res;
+    };
+
+    //尝试了一下 将全局变量设置为null 来回收内存 然鹅……不跑了！不跑了！好像是我自己的理解错误
+</script>
+</body>
+</html>
